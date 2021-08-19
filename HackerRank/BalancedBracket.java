@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 
 public class BalancedBracket{
-    public static String isBalanced(String s) {
+    public static String is(String s) {
         Map<Character, Character> map = new HashMap<Character, Character>();
         map.put(')','(');
         map.put('}','{');
@@ -36,7 +36,7 @@ public class BalancedBracket{
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         for(int i=0;i<1;i++){
-            System.out.println(isBalanced(in.nextLine()));
+            System.out.println(is(in.nextLine()));
         }
         in.close();
     }

@@ -1,8 +1,10 @@
 package Java.LeetCode;
+// PepCoding,LeetCode.
 
 import java.util.Arrays;
-// import java.util.HashMap;
-// import java.util.Map;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
 
 public class NextGreaterelementI {
     public static int[] nextGreaterElement(int[] num1, int[] num2) {
@@ -10,19 +12,6 @@ public class NextGreaterelementI {
         Arrays.fill(ans,-1);
 
         // !For Reducing the time complexity to O(n^2) use HashMap
-
-        // Map<Integer,Integer> map = new HashMap<>();
-        // for(int i = 0; i < num2.length; i++){
-        //     map.put(num2[i],i);
-        // }
-        // int res[] = new int[num1.length];
-        // Arrays.fill(res,-1);
-        // for(int i = 0; i < res.length; i++){
-        //     int index = map.get(num1[i]);
-        //     for(int j=index+1; j < num2.length;j++){
-        //         if(num2[j]>num1[i]){res[i] = num2[j];break;}
-        //     }
-        // }
 
         for(int i=0;i<num1.length;i++){
             for(int j=0;j<num2.length;j++){
@@ -39,11 +28,37 @@ public class NextGreaterelementI {
         return ans;
     }
     public static void main(String[] args) {
-        int[] nums1 = {1,3,5,2,4};
-        int[] nums2 = {6,5,4,3,2,1,7};
-        nums1 = nextGreaterElement(nums1,nums2);
+        int[] nums1 = {1,3,5,2,4,6};
+        int[] nums2 = {6,5,8,4,3,2,1,7};
+        nums1 = nextGreater(nums2,nums1);
         for(int vl:nums1){
             System.out.print(vl+" ");
         }
+    }
+    public static int[] nextGreater(int[] nums, int[] query) {
+        Stack<Integer> st = new Stack<>();
+        Map<Integer,Integer> map = new HashMap<>();
+        int[] nge = new int[nums.length];
+        int ans[] = new int[query.length];
+        st.push(nums.length-1);
+        nge[nums.length-1] = -1;
+        for(int i=nums.length-2;i>=0;i--){
+            while(!st.isEmpty() && nums[i]>=nums[st.peek()]){
+                st.pop();
+            }
+            if(st.isEmpty()){
+                nge[i] = -1;
+            }
+            else nge[i] = nums[st.peek()];
+            st.push(i);
+        }
+        
+        for(int i=0;i<nums.length;i++){
+            map.put(nums[i],nge[i]);
+        }
+        for(int i=0;i<query.length;i++){
+            ans[i] = map.get(query[i]);
+        }
+        return ans;
     }
 }
